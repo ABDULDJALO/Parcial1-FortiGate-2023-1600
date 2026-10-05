@@ -1,0 +1,23 @@
+! =====================================================================
+! Router SUCURSAL - Cisco C2691 - Parcial 1
+! Abdul Djalo - 2023-1600
+! Equipo de red de la sucursal con su PC.
+! =====================================================================
+hostname SUCURSAL
+no ip domain-lookup
+!
+interface FastEthernet0/0
+ ip address 200.23.16.6 255.255.255.252
+ ip nat outside
+ no shutdown
+!
+interface FastEthernet0/1
+ ip address 172.23.16.193 255.255.255.224
+ ip nat inside
+ no shutdown
+!
+ip route 0.0.0.0 0.0.0.0 200.23.16.5
+access-list 1 permit 172.23.16.192 0.0.0.31
+ip nat inside source list 1 interface FastEthernet0/0 overload
+!
+end

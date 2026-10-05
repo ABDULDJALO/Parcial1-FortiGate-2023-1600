@@ -1,0 +1,31 @@
+! =====================================================================
+! Router ISP - Cisco C2691 - Parcial 1
+! Abdul Djalo - 2023-1600
+! Provee IP publicas y salida a Internet mediante NAT.
+! =====================================================================
+hostname ISP
+no ip domain-lookup
+!
+interface FastEthernet0/0
+ ip address 192.168.100.252 255.255.255.0
+ ip nat outside
+ no shutdown
+!
+interface FastEthernet0/1
+ ip address 200.23.16.1 255.255.255.252
+ ip nat inside
+ no shutdown
+!
+interface FastEthernet1/0
+ ip address 200.23.16.5 255.255.255.252
+ ip nat inside
+ no shutdown
+!
+ip route 0.0.0.0 0.0.0.0 192.168.100.1
+!
+! NAT con exencion para la red de gestion
+access-list 101 deny ip 200.23.16.0 0.0.0.255 192.168.100.0 0.0.0.255
+access-list 101 permit ip 200.23.16.0 0.0.0.255 any
+ip nat inside source list 101 interface FastEthernet0/0 overload
+!
+end

@@ -1,0 +1,21 @@
+# =====================================================================
+# PC10 - Alpine Linux 3.20 - Parcial 1
+# Abdul Djalo - 2023-1600
+# Usuario de la VLAN 10. Direccion por DHCP del FortiGate.
+# =====================================================================
+
+# /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+# /etc/resolv.conf
+nameserver 8.8.8.8
+
+# /etc/local.d/ruta.start  (instala la ruta por defecto en el arranque)
+#!/bin/sh
+ip route add default via 172.23.16.1 2>/dev/null
+
+# rc-update add local default

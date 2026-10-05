@@ -1,0 +1,50 @@
+! =====================================================================
+! Switch Cisco IOSvL2 - Parcial 1
+! Abdul Djalo - 2023-1600
+! =====================================================================
+hostname SW
+no ip domain-lookup
+!
+! --- VLANs ---
+vlan 10
+ name USUARIOS
+vlan 20
+ name ADMIN
+vlan 30
+ name SERVIDORES
+!
+! --- Trunk 802.1Q hacia el FortiGate ---
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+!
+! --- Puerto de acceso VLAN 10 (PC10) con port-security ---
+interface GigabitEthernet1/0
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation shutdown
+ spanning-tree portfast
+!
+! --- Puerto de acceso VLAN 20 (PC20) con port-security ---
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation shutdown
+ spanning-tree portfast
+!
+! --- Puertos de acceso VLAN 30 (servidores) ---
+interface GigabitEthernet0/2
+ switchport mode access
+ switchport access vlan 30
+ spanning-tree portfast
+interface GigabitEthernet0/3
+ switchport mode access
+ switchport access vlan 30
+ spanning-tree portfast
+!
+end

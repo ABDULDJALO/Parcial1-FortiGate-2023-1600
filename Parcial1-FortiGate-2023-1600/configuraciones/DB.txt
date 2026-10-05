@@ -1,0 +1,33 @@
+# =====================================================================
+# DB Server - Alpine Linux 3.20 - Parcial 1
+# Abdul Djalo - 2023-1600
+# IP 172.23.16.131/28 (VLAN 30). MariaDB escuchando en el 3306.
+# =====================================================================
+
+# /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+    address 172.23.16.131
+    netmask 255.255.255.240
+    gateway 172.23.16.129
+
+# Instalacion
+apk add mariadb mariadb-client
+rc-service mariadb setup
+
+# /etc/my.cnf.d/red.cnf  (habilita la escucha en red en el 3306)
+[mysqld]
+skip-networking=0
+bind-address=0.0.0.0
+
+rc-update add mariadb default
+rc-service mariadb start
+
+# Usuario para pruebas de SSH desde VLAN 20
+adduser -D admin20
+passwd admin20
+rc-update add sshd default
+rc-service sshd start

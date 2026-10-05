@@ -1,0 +1,16 @@
+# =====================================================================
+# PC20 - Alpine Linux 3.20 - Parcial 1
+# Abdul Djalo - 2023-1600
+# Usuario administrativo de la VLAN 20. Direccion por DHCP.
+# Unico origen autorizado para SSH a los servidores.
+# =====================================================================
+
+# /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+# Ruta por defecto hacia el gateway de la VLAN 20
+ip route add default via 172.23.16.161
